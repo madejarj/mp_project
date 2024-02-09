@@ -51,13 +51,14 @@ def cdd_richardsons_extrapolation_main():
     f_xi_minus_rounded = "{:.{}f}".format(f(xi_minus), dp)
     f_xi_minus_h2_rounded = "{:.{}f}".format(f(xi_minus_h2), dp)
     
+    # Format truncated derivatives with desired number of decimal places
     D_h1_rounded = "{:.{}f}".format(D_h1, dp)
     D_h2_rounded = "{:.{}f}".format(D_h2, dp)
     D_rounded = "{:.{}f}".format(D, dp)
     
     print("\nTabulated Results:")
     print("{:<10} | {:<15} | {:<10} | {:<15}".format("x (h1)", "f(x) (h1)", "x (h2)", "f(x) (h2)"))
-    print("-" * 55)
+    print("-" * 55)  
     print("{:<10} | {:<15} | {:<10} | {:<15}".format(xi_plus_rounded, f_xi_plus_rounded, xi_plus_h2_rounded, f_xi_plus_h2_rounded))
     print("{:<10} | {:<15} | {:<10} | {:<15}".format(xi_rounded, f_xi_rounded, xi_rounded, f_xi_rounded))
     print("{:<10} | {:<15} | {:<10} | {:<15}".format(xi_minus_rounded, f_xi_minus_rounded, xi_minus_h2_rounded, f_xi_minus_h2_rounded))
