@@ -1,15 +1,12 @@
 import math
 
 def cdd_richardsons_extrapolation_main():
-    # Input
     f_of_x = input("Enter the function f(x): ")
     xi = float(input("Enter the value of xi: "))
     h1 = float(input("Enter the larger spacing h1: "))
     h2 = float(input("Enter the smaller spacing h2: "))
     dp = int(input("Enter the desired decimal places for rounding off: "))
 
-    # Computations
-    # Remove unnecessary spaces and replace special notations
     function_str = f_of_x.replace(" ", "")
     function_str = function_str.replace('^', '**')
     function_str = function_str.replace('sqrt', 'math.sqrt')
@@ -24,7 +21,6 @@ def cdd_richardsons_extrapolation_main():
     function_str = function_str.replace('sec', '1/math.cos')
     function_str = function_str.replace('cot', '1/math.tan')
 
-    # Define the lambda function
     f = lambda x: round(eval(function_str, {'x': x, 'math': math, 'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'log': math.log, 'log10': math.log10, 'e': math.e, 'exp': math.exp, 'csc': lambda x: 1/math.sin(x), 'sec': lambda x: 1/math.cos(x), 'cot': lambda x: 1/math.tan(x)}), dp)
 
     xi_plus = xi + h1
@@ -44,8 +40,6 @@ def cdd_richardsons_extrapolation_main():
     
     D = richardson_extrapolation(D_h1, D_h2)
 
-    # Output
-    # Format rounded values with desired number of decimal places
     xi_plus_rounded = "{:.{}f}".format(xi_plus, dp)
     xi_plus_h2_rounded = "{:.{}f}".format(xi_plus_h2, dp)
     xi_rounded = "{:.{}f}".format(xi, dp)
@@ -57,14 +51,13 @@ def cdd_richardsons_extrapolation_main():
     f_xi_minus_rounded = "{:.{}f}".format(f(xi_minus), dp)
     f_xi_minus_h2_rounded = "{:.{}f}".format(f(xi_minus_h2), dp)
     
-    # Format truncated derivatives with desired number of decimal places
     D_h1_rounded = "{:.{}f}".format(D_h1, dp)
     D_h2_rounded = "{:.{}f}".format(D_h2, dp)
     D_rounded = "{:.{}f}".format(D, dp)
     
     print("\nTabulated Results:")
     print("{:<10} | {:<15} | {:<10} | {:<15}".format("x (h1)", "f(x) (h1)", "x (h2)", "f(x) (h2)"))
-    print("-" * 55)  # Separator line
+    print("-" * 55)
     print("{:<10} | {:<15} | {:<10} | {:<15}".format(xi_plus_rounded, f_xi_plus_rounded, xi_plus_h2_rounded, f_xi_plus_h2_rounded))
     print("{:<10} | {:<15} | {:<10} | {:<15}".format(xi_rounded, f_xi_rounded, xi_rounded, f_xi_rounded))
     print("{:<10} | {:<15} | {:<10} | {:<15}".format(xi_minus_rounded, f_xi_minus_rounded, xi_minus_h2_rounded, f_xi_minus_h2_rounded))
