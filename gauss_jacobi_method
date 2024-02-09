@@ -43,7 +43,7 @@ def gauss_jacobi_main():
         (i, j, k), l = extract_coefficients(arranged_equations[2])
 
         ea = float(input("\nEnter the absolute error: "))
-        dp = int(input("\nEnter the number of decimal places for rounding: "))
+        dp = int(input("Enter the number of decimal places for rounding: "))
 
         print("\nIterative Formulas:")
         print(f"x_new = [({d})-({b})y-({c})z]/({a})]")
