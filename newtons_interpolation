@@ -1,0 +1,98 @@
+def newtons_interpolation_main():
+    n = int(input("Enter the number of data points: "))
+
+    x_values = []
+    y_values = []
+
+    for i in range(n):
+        x, y = map(float, input(f"Enter data point {i + 1} (x, f(x)): ").split())
+        x_values.append(x)
+        y_values.append(y)
+
+    sorted_data_points = sorted(zip(x_values, y_values))
+    x_values, y_values = zip(*sorted_data_points)
+
+    def calculate_forward_finite_differences(x_values, y_values):
+        n = len(y_values)
+        forward_finite_diff = []
+
+        for i in range(n):
+            forward_finite_diff.append([y_values[i]])
+
+        for j in range(1, n):
+            for i in range(n - j):
+                diff = (forward_finite_diff[i + 1][j - 1] - forward_finite_diff[i][j - 1]) / (
+                            x_values[i + j] - x_values[i])
+                forward_finite_diff[i].append(diff)
+
+        return forward_finite_diff
+
+    def calculate_divided_differences(x_values, y_values):
+        n = len(x_values)
+        divided_diff = [list(y_values)]
+
+        for i in range(1, n):
+            current_diff = []
+            for j in range(n - i):
+                diff = (divided_diff[i - 1][j + 1] - divided_diff[i - 1][j]) / (x_values[i + j] - x_values[j])
+                current_diff.append(diff)
+            divided_diff.append(current_diff)
+
+        return divided_diff
+
+    def interpolate_equation(x_values, y_values):
+        n = len(x_values)
+        divided_diff = calculate_divided_differences(x_values, y_values)
+
+        result = str(y_values[0])
+        term = '1'
+
+        for i in range(1, n):
+            term += f" * (x - {x_values[i - 1]})"
+            result += f" + {term} * {divided_diff[i][0]}"
+
+        return result, divided_diff
+
+    def format_equation(equation):
+        equation = equation.replace(" ", "")
+        equation = equation.replace("++", "+")
+        equation = equation.replace("+-", "-")
+        equation = equation.replace("-+", "-")
+        equation = equation.replace("--", "+")
+
+        return equation
+
+    def print_interpolating_table(x_values, y_values):
+        """
+        Print the interpolating table with divided differences.
+
+        Args:
+        x_values: List of x values.
+        y_values: List of corresponding f(x) values.
+        """
+        divided_diff = calculate_divided_differences(x_values, y_values)
+        forward_finite_diff = calculate_forward_finite_differences(x_values, y_values)
+        n = len(x_values)
+
+        print("\nInterpolating Table:")
+        print("{:<9} | {:<9}".format("x", "f(x)"))
+        print("-" * 20)
+        for i in range(n):
+            print("{:<9} | {:<9}".format(x_values[i], y_values[i]))
+
+        print("\nDivided Difference Table:")
+        for j in range(n):
+            print(f"{j:<9}", "|", end=" ")
+            for i in range(n - j):
+                print(f"{divided_diff[i][j]:<10.4f}", end=" | ")
+            print()
+
+    print_interpolating_table(x_values, y_values)
+    interpolated_equation, divided_diff = interpolate_equation(x_values, y_values)
+    formatted_equation = format_equation(interpolated_equation)
+
+    print("\nInterpolated Equation:")
+    print(f"The interpolated equation is: f(x) = {formatted_equation}\n")
+
+if __name__ == "__main__":
+    newtons_interpolation_main()
