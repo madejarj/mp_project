@@ -1,0 +1,55 @@
+import math
+
+def simpsons_one_third_main():
+    f_of_x = input("Enter the function: ")
+    x0 = float(input("Enter the lower limit x0: "))
+    x8 = float(input("Enter the upper limit x8: "))
+    n = int(input("Enter number of segments n (2,4,6,8): "))
+    dp = int(input("Enter the number of decimal places for rounding: "))
+
+    def process_function_string(function_str):
+        function_str = function_str.replace(" ", "")
+        function_str = function_str.replace('^', '**')
+        function_str = function_str.replace('sqrt', 'math.sqrt')
+        function_str = function_str.replace('sin', 'math.sin')
+        function_str = function_str.replace('cos', 'math.cos')
+        function_str = function_str.replace('tan', 'math.tan')
+        function_str = function_str.replace('ln', 'math.log')
+        function_str = function_str.replace('log', 'math.log10')
+        function_str = function_str.replace('e', 'math.e')
+        function_str = function_str.replace('exp', 'math.exp')
+        function_str = function_str.replace('csc', '1/math.sin')
+        function_str = function_str.replace('sec', '1/math.cos')
+        function_str = function_str.replace('cot', '1/math.tan')
+
+        return lambda x: eval(function_str, {'x': x, 'math': math, 'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'log': math.log, 'log10': math.log10, 'e': math.e, 'exp': math.exp, 'csc': lambda x: 1/math.sin(x), 'sec': lambda x: 1/math.cos(x), 'cot': lambda x: 1/math.tan(x)})
+
+    f = process_function_string(f_of_x)
+    h = (x8 - x0) / n    
+    sum_fx = 0
+    
+    print("\nSpacing h:", round(h, dp))
+    print("\nTabulated Results:")
+    print("{:<10} | {:<10} | {:<10} | {:<10}".format("x", "f(x)", "Multiplier", "Product"))
+    print("-" * 50)
+
+    for i in range(n + 1):
+        xi = x0 + i * h
+        if i == 0 or i == n:
+            multiplier = 1
+        elif i % 2 != 0:
+            multiplier = 4
+        else:
+            multiplier = 2
+        fx = f(xi)
+        product = fx * multiplier
+        sum_fx += product
+        print("{:<10.{dp}f} | {:<10.{dp}f} | {:<10} | {:<10.{dp}f}".format(xi, fx, multiplier, product, dp=dp))
+    
+    print("\nSum of products f(xi):", round(sum_fx, dp))
+    integral_estimate = (h / 3) * sum_fx
+    print("\nIntegral estimate:", round(integral_estimate, dp))
+    print("\n")
+
+if __name__ == "__main__":
+    simpsons_one_third_main()
