@@ -38,7 +38,7 @@ def cdd_richardsons_extrapolation_main():
     def richardson_extrapolation(D_h1, D_h2):
         return ((4/3) * D_h2) - ((1/3) * D_h1)
     
-    D = richard_extrapolation(D_h1, D_h2)
+    D = richardson_extrapolation(D_h1, D_h2)
 
     xi_plus_rounded = "{:.{}f}".format(xi_plus, dp)
     xi_plus_h2_rounded = "{:.{}f}".format(xi_plus_h2, dp)
